@@ -13,7 +13,7 @@ plan:
 		terraform plan -out=$(ENV)-infra.plan
 
 # Apply
-apply-infra:
+apply:
 	cd terraform/env/$(ENV) &&\
 		terraform apply "$(ENV)-infra.plan"
 
