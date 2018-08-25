@@ -15,6 +15,12 @@ are not always free even during tests.
 
 1. Install [terraform](https://www.terraform.io/downloads.html)
 
+    ```
+    $ wget https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip
+    $ sudo unzip -o -d /usr/local/bin terraform_0.11.8_linux_amd64.zip
+    $ terraform version
+    ```
+
 1. Initialize and validate
 
     ```
