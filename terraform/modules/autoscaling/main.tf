@@ -8,7 +8,7 @@ data "aws_ami" "default" {
 
   filter = {
     name = "name"
-    values = "${ami_names}"
+    values = "${var.ami_names}"
   }
 
   owners = "${var.ami_owners}"
@@ -26,7 +26,7 @@ resource "aws_launch_configuration" "cluster" {
   name = "${var.namespace}-config"
   image_id = "${data.aws_ami.default.image_id}"
   instance_type = "${var.instance_type}"
-  security_groups = "${var.security_groups}"
+  security_groups = ["${var.security_groups}"]
   key_name = "${var.key_name}"
   associate_public_ip_address = true
 
@@ -38,7 +38,7 @@ resource "aws_launch_configuration" "cluster" {
 resource "aws_autoscaling_group" "default" {
   name = "${var.namespace}-group"
   launch_configuration = "${aws_launch_configuration.cluster.name}"
-  vpc_zone_identifier = "${var.vpc_zone_id}"
+  vpc_zone_identifier = ["${var.subnets}"]
   min_size = "${var.min}"
   max_size = "${var.max}"
   enabled_metrics = "${var.metrics}"
@@ -70,8 +70,6 @@ variable "security_groups" {
 
 variable "instance_type" {}
 variable "key_name" {}
-
-variable "vpc_zone_id" {}
 
 variable "namespace" {}
 variable "name" {

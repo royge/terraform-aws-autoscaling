@@ -6,7 +6,7 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 resource "aws_vpc" "main" {
-  cidr_block = "${var.cidr_blocks[0]}}"
+  cidr_block = "${var.cidr_blocks[0]}"
 }
 
 resource "aws_internet_gateway" "main" {
@@ -16,6 +16,7 @@ resource "aws_internet_gateway" "main" {
 resource "aws_subnet" "primary" {
   vpc_id = "${aws_vpc.main.id}"
   availability_zone = "${data.aws_availability_zones.available.names[0]}"
+  cidr_block = "${var.cidr_blocks[1]}}"
 
   tags {
     Name = "Primary"
@@ -25,6 +26,7 @@ resource "aws_subnet" "primary" {
 resource "aws_subnet" "secondary" {
   vpc_id = "${aws_vpc.main.id}"
   availability_zone = "${data.aws_availability_zones.available.names[1]}"
+  cidr_block = "${var.cidr_blocks[2]}}"
 
   tags {
     Name = "Secondary"

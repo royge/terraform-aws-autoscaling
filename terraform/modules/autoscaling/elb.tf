@@ -1,14 +1,12 @@
 data "aws_acm_certificate" "default" {
-  domain   = "{var.domain}"
+  domain   = "${var.domain}"
   most_recent = true
 }
 
-variable "domain" {}
-
 resource "aws_elb" "default" {
   name = "${var.namespace}-default-elb"
-  security_groups = "${var.public_security_groups}"
-  subnets = "${var.subnets}"
+  security_groups = ["${var.public_security_groups}"]
+  subnets = ["${var.subnets}"]
 
   listener {
     instance_port = 443
@@ -29,7 +27,7 @@ resource "aws_elb" "default" {
     healthy_threshold = 2
     unhealthy_threshold = 2
     timeout = 3
-    target = "{var.health_check_target}"
+    target = "${var.health_check_target}"
     interval = 30
   }
 
@@ -50,8 +48,13 @@ resource "aws_lb_cookie_stickiness_policy" "default" {
   cookie_expiration_period = 600
 }
 
-variable "public_security_groups" {}
-variable "subnets" {}
+variable "domain" {}
+variable "public_security_groups" {
+  type = "list"
+}
+variable "subnets" {
+  type = "list"
+}
 variable "health_check_target" {
   default = "HTTPS:443/"
 }
