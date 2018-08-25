@@ -1,27 +1,39 @@
-terraform {
-    backend "s3" {
-    bucket = "terraform-state"
-    key    = "test/terraform.tfstate"
-    region = "us-east-1"
-  }
+module "networking" {
+  source = "../../modules/networking"
+
+  region = "ap-southeast-1"
+  namespace = "test"
+  cidr_blocks = [
+    # base CIDR block
+    "10.0.0.0/16"
+  ]
 }
 
 module "api" {
   source = "../../modules/autoscaling"
 
   region = "ap-southeast-1"
-  ami = "ami-ec589898"
-  min_autoscaling_size = 1
+  namespace = "test"
+
+  ami_names = [""]
+  ami_owners = [""]
+
   instance_type = "t2.micro"
   key_name = "test"
-  logs_s3_bucket = "mybucket"
-  vpc_id = "vpc-90451x53"
-  subnets_id = ["subnet-002bed49", "subnet-77fe2d10"]
-  elb_sg_id = "sg-5aa6233c"
-  lc_sg_id = "sg-22a12444"
-  ssl_certificate = "arn:aws:acm:ap-southeast-1:994359151799:certificate/dafef8b2-10da-4cc7-923a-b0a36eeaee67"
+  domain = "tf.example.com"
+  vpc_zone_id = "${module.networking.primary_subnet_id}"
+  subnets = [
+    "${module.networking.primary_subnet_id}",
+    "${module.networking.secondary_subnet_id}"
+  ]
+  security_groups = [
+    "${module.networking.internal_sg_id}"
+  ]
+  public_security_groups = [
+    "${module.networking.public_sg_id}"
+  ]
 }
 
-output "api" {
-  value = ["${module.api.api_elb_dns}"]
+output "api-dns" {
+  value = ["${module.api.default_elb_dns}"]
 }

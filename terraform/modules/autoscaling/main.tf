@@ -1,12 +1,32 @@
 provider "aws" {
   region = "${var.region}"
-  version = "1.8.0"
+  version = "1.33.0"
 }
 
-resource "aws_launch_configuration" "apicluster" {
-  image_id = "${var.ami}"
+data "aws_ami" "default" {
+  most_recent = true
+
+  filter = {
+    name = "name"
+    values = "${ami_names}"
+  }
+
+  owners = "${var.ami_owners}"
+}
+
+variable "ami_names" {
+  type = "list"
+}
+
+variable "ami_owners" {
+  type = "list"
+}
+
+resource "aws_launch_configuration" "cluster" {
+  name = "${var.namespace}-config"
+  image_id = "${data.aws_ami.default.image_id}"
   instance_type = "${var.instance_type}"
-  security_groups = ["${var.lc_sg_id}"]
+  security_groups = "${var.security_groups}"
   key_name = "${var.key_name}"
   associate_public_ip_address = true
 
@@ -15,25 +35,56 @@ resource "aws_launch_configuration" "apicluster" {
   }
 }
 
-resource "aws_autoscaling_group" "apigroup" {
-  launch_configuration = "${aws_launch_configuration.apicluster.name}"
-  vpc_zone_identifier = "${var.subnets_id}"
-  min_size = "${var.min_autoscaling_size}"
-  max_size = "${var.max_autoscaling_size}"
-  enabled_metrics = [
+resource "aws_autoscaling_group" "default" {
+  name = "${var.namespace}-group"
+  launch_configuration = "${aws_launch_configuration.cluster.name}"
+  vpc_zone_identifier = "${var.vpc_zone_id}"
+  min_size = "${var.min}"
+  max_size = "${var.max}"
+  enabled_metrics = "${var.metrics}"
+  metrics_granularity = "1Minute"
+  load_balancers = ["${aws_elb.default.id}"]
+  health_check_type = "ELB"
+
+  tag {
+    key = "Name"
+    value = "${var.name}"
+    propagate_at_launch = true
+  }
+}
+
+# AWS Region
+variable "region" {}
+
+variable min {
+  default = 1
+}
+
+variable max {
+  default = 2
+}
+
+variable "security_groups" {
+  type = "list"
+}
+
+variable "instance_type" {}
+variable "key_name" {}
+
+variable "vpc_zone_id" {}
+
+variable "namespace" {}
+variable "name" {
+  default="API sever"
+}
+
+variable "metrics" {
+  type = "list"
+  default = [
     "GroupMinSize",
     "GroupMaxSize",
     "GroupDesiredCapacity",
     "GroupInServiceInstances",
     "GroupTotalInstances",
   ]
-  metrics_granularity = "1Minute"
-  load_balancers = ["${aws_elb.apielb.id}"]
-  health_check_type = "ELB"
-
-  tag {
-    key = "Name"
-    value = "API server autoscaling group"
-    propagate_at_launch = true
-  }
 }

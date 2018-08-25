@@ -1,6 +1,6 @@
-#Terraform Templates
+# Terraform Templates
 
-##Getting Started
+## Getting Started
 
 1. Install terraform
 
