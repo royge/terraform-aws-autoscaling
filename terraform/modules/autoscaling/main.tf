@@ -6,9 +6,14 @@ provider "aws" {
 data "aws_ami" "default" {
   most_recent = true
 
-  filter = {
+  filter {
     name = "name"
     values = "${var.ami_names}"
+  }
+
+  filter {
+    name = "virtualization-type"
+    values = ["hvm"]
   }
 
   owners = "${var.ami_owners}"
@@ -29,6 +34,7 @@ resource "aws_launch_configuration" "cluster" {
   security_groups = ["${var.security_groups}"]
   key_name = "${var.key_name}"
   associate_public_ip_address = true
+  user_data = "${file(var.user_data_filename)}"
 
   lifecycle {
     create_before_destroy = true
@@ -56,13 +62,15 @@ resource "aws_autoscaling_group" "default" {
 # AWS Region
 variable "region" {}
 
-variable min {
+variable "min" {
   default = 1
 }
 
-variable max {
+variable "max" {
   default = 2
 }
+
+variable "user_data_filename" {}
 
 variable "security_groups" {
   type = "list"

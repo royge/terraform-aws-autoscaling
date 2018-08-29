@@ -18,9 +18,10 @@ module "api" {
 
   region = "ap-southeast-1"
   namespace = "test"
+  user_data_filename = "userdata.sh"
 
-  ami_names = [""]
-  ami_owners = [""]
+  ami_names = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
+  ami_owners = ["099720109477"] # Canonical
 
   instance_type = "t2.micro"
   key_name = "test"
