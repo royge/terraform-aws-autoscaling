@@ -4,13 +4,13 @@ data "aws_acm_certificate" "default" {
 }
 
 resource "aws_elb" "default" {
-  name = "${var.namespace}-default-elb"
+  name = "${var.name}-default-elb"
   security_groups = ["${var.public_security_groups}"]
   subnets = ["${var.subnets}"]
 
   listener {
-    instance_port = 443
-    instance_protocol = "https"
+    instance_port = 80
+    instance_protocol = "http"
     lb_port = 80
     lb_protocol = "http"
   }
@@ -42,7 +42,7 @@ resource "aws_elb" "default" {
 }
 
 resource "aws_lb_cookie_stickiness_policy" "default" {
-  name = "${var.namespace}defaultcookiestickness"
+  name = "${var.name}defaultcookiestickness"
   load_balancer = "${aws_elb.default.id}"
   lb_port = 80
   cookie_expiration_period = 600

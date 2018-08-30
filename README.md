@@ -48,6 +48,5 @@ are not always free even during tests.
 
 ## TODO
 
-1. Unit tests
-1. More usage examples
-1. ?
+1. Unit testing docs.
+1. Make `userdata.sh` location configurable

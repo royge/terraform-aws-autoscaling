@@ -22,3 +22,10 @@ apply:
 destroy:
 	cd terraform/env/$(ENV) &&\
 		terraform destroy --force
+
+# Before running this test, make sure to have `tf.example.com` certificate
+# added in `us-east-1` region of you AWS account.
+# If you have existing certificate you can modify `domain` and `awsRegion`
+# variable values in the `autoscaling_test.go` file.
+test:
+	go test -v -run TestAutoscaling ./test -count=1

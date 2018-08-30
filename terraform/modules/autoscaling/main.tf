@@ -28,13 +28,12 @@ variable "ami_owners" {
 }
 
 resource "aws_launch_configuration" "cluster" {
-  name = "${var.namespace}-config"
   image_id = "${data.aws_ami.default.image_id}"
   instance_type = "${var.instance_type}"
   security_groups = ["${var.security_groups}"]
   key_name = "${var.key_name}"
   associate_public_ip_address = true
-  user_data = "${file(var.user_data_filename)}"
+  user_data = "${file("userdata.sh")}"
 
   lifecycle {
     create_before_destroy = true
@@ -42,7 +41,7 @@ resource "aws_launch_configuration" "cluster" {
 }
 
 resource "aws_autoscaling_group" "default" {
-  name = "${var.namespace}-group"
+  name = "${var.name}-group"
   launch_configuration = "${aws_launch_configuration.cluster.name}"
   vpc_zone_identifier = ["${var.subnets}"]
   min_size = "${var.min}"
@@ -70,8 +69,6 @@ variable "max" {
   default = 2
 }
 
-variable "user_data_filename" {}
-
 variable "security_groups" {
   type = "list"
 }
@@ -79,10 +76,7 @@ variable "security_groups" {
 variable "instance_type" {}
 variable "key_name" {}
 
-variable "namespace" {}
-variable "name" {
-  default="API sever"
-}
+variable "name" {}
 
 variable "metrics" {
   type = "list"

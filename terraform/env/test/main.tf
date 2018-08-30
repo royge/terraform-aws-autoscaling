@@ -2,7 +2,7 @@ module "networking" {
   source = "../../modules/networking"
 
   region = "ap-southeast-1"
-  namespace = "test"
+  name = "test"
   cidr_blocks = [
     # base
     "10.0.0.0/16",
@@ -17,8 +17,7 @@ module "api" {
   source = "../../modules/autoscaling"
 
   region = "ap-southeast-1"
-  namespace = "test"
-  user_data_filename = "userdata.sh"
+  name = "test"
 
   ami_names = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
   ami_owners = ["099720109477"] # Canonical
