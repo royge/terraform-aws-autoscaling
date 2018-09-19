@@ -46,6 +46,7 @@ resource "aws_autoscaling_group" "default" {
   vpc_zone_identifier = ["${var.subnets}"]
   min_size = "${var.min}"
   max_size = "${var.max}"
+  desired_capacity = "${var.cap}"
   enabled_metrics = "${var.metrics}"
   metrics_granularity = "1Minute"
   load_balancers = ["${aws_elb.default.id}"]
@@ -67,6 +68,10 @@ variable "min" {
 
 variable "max" {
   default = 2
+}
+
+variable "cap" {
+  default = 1
 }
 
 variable "security_groups" {

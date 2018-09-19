@@ -57,7 +57,7 @@ func TestAutoscaling(t *testing.T) {
 	maxRetries := 30
 	timeBetweenRetries := 5 * time.Second
 
-	// Verify that we get back a 200 OK with the expected instanceText
+	// Verify that we get back a 200 OK with the expected "Hello Terraform!"
 	http_helper.HttpGetWithRetry(
 		t,
 		"http://"+elbDNS,
