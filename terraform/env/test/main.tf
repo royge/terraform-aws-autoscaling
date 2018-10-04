@@ -23,8 +23,8 @@ module "api" {
   ami_owners = ["099720109477"] # Canonical
 
   instance_type = "t2.micro"
-  key_name = "test"
-  domain = "tf.example.com"
+  key_name = "terraformtest"
+  domain = "terraformtest.io"
   subnets = [
     "${module.networking.primary_subnet_id}",
     "${module.networking.secondary_subnet_id}"

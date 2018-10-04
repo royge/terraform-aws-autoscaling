@@ -33,3 +33,13 @@ test-prepare:
 .PHONY: test
 test:
 	go test -v -run TestAutoscaling ./test -count=1
+
+docker:
+	docker run -it \
+		-v $(PWD):/infra \
+		-w /infra \
+		--rm \
+		-e AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) \
+		-e AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) \
+		royge/terraform \
+		/bin/sh
