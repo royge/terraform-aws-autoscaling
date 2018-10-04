@@ -13,7 +13,23 @@ are not always free even during tests.
     $ git clone git@github.com:royge/terraform-aws-autoscaling.git
     ```
 
-1. Install [terraform](https://www.terraform.io/downloads.html)
+1. Set AWS credentials
+
+    ```
+    $ export AWS_ACCESS_KEY_ID=<your-access-key-id>
+    $ export AWS_SECRET_ACCESS_KEY=<your-secret-access-key>
+    ```
+
+1. Run docker terraform docker container
+
+    ```
+    $ make docker
+    ```
+
+    **Alternative:**
+
+    If you don't like docker, you can install [terraform](https://www.terraform.io/downloads.html)
+    directly on your machine using the following command.
 
     ```
     $ wget https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip
