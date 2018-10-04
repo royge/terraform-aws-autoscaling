@@ -17,12 +17,12 @@ func TestAutoscaling(t *testing.T) {
 	uniqueID := random.UniqueId()
 	name := fmt.Sprintf("terratest-%s", uniqueID)
 
-	// Change this domain value to the once you registered in your ACM
+	// Change this domain value to the one you registered in your ACM
 	// certificate.
-	domain := "tf.example.com"
+	domain := "terraformtest.io"
 
 	// Choose a region in which you have the certificate of the domain.
-	awsRegion := "us-east-1"
+	awsRegion := "ap-southeast-1"
 
 	data, teardown := setup(t, awsRegion, uniqueID)
 	defer teardown()
