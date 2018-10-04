@@ -64,7 +64,7 @@ are not always free even during tests.
 
 ## Integration Testing
 
-1. Install Go 1.11 or above
+1. Install [Go 1.11](https://golang.org/doc/install) or above
 
 1. Download tests dependencies
 
