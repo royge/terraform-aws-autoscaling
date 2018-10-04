@@ -23,6 +23,9 @@ destroy:
 	cd terraform/env/$(ENV) &&\
 		terraform destroy --force
 
+test-prepare:
+	cd test && go mod vendor
+
 # Before running this test, make sure to have `terraformtest.io` certificate
 # added in `ap-southeast-1` region of you AWS account.
 # If you have existing certificate you can modify `domain` and `awsRegion`

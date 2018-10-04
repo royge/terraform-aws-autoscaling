@@ -46,7 +46,27 @@ are not always free even during tests.
     $ ENV=test make destroy
     ```
 
+## Integration Testing
+
+1. Install Go 1.11 or above
+
+1. Download tests dependencies
+
+    ```
+    $ make test-prepare
+    ```
+
+1. Execute tests
+
+    Before running this command, make sure to have `terraformtest.io` certificate
+    added in `ap-southeast-1` region of you AWS account.
+    If you have existing certificate you can modify `domain` and `awsRegion`
+    variable values in the `autoscaling_test.go` file.
+
+    ```
+    $ make test
+    ```
+
 ## TODO
 
-1. Unit testing docs.
 1. Make `userdata.sh` location configurable
