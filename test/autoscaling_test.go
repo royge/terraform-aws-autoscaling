@@ -28,7 +28,7 @@ func TestAutoscaling(t *testing.T) {
 	defer teardown()
 
 	terraformOptions := &terraform.Options{
-		TerraformDir: "../terraform/modules/autoscaling",
+		TerraformDir: "../",
 
 		Vars: map[string]interface{}{
 			"region":              awsRegion,
@@ -71,7 +71,7 @@ func TestAutoscaling(t *testing.T) {
 func setup(t *testing.T, awsRegion string, uniqueID string) (map[string]interface{}, func()) {
 	name := fmt.Sprintf("terratest-%s", uniqueID)
 	terraformOptions := &terraform.Options{
-		TerraformDir: "../terraform/modules/networking",
+		TerraformDir: "royge/networking/aws",
 
 		Vars: map[string]interface{}{
 			"region": awsRegion,

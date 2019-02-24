@@ -1,8 +1,3 @@
-data "aws_acm_certificate" "default" {
-  domain   = "${var.domain}"
-  most_recent = true
-}
-
 resource "aws_elb" "default" {
   name = "${var.name}-default-elb"
   security_groups = ["${var.public_security_groups}"]
@@ -46,19 +41,4 @@ resource "aws_lb_cookie_stickiness_policy" "default" {
   load_balancer = "${aws_elb.default.id}"
   lb_port = 80
   cookie_expiration_period = 600
-}
-
-variable "domain" {}
-variable "public_security_groups" {
-  type = "list"
-}
-variable "subnets" {
-  type = "list"
-}
-variable "health_check_target" {
-  default = "HTTPS:443/"
-}
-
-output "default_elb_dns" {
-  value = "${aws_elb.default.dns_name}"
 }

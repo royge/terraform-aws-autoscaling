@@ -1,5 +1,5 @@
 module "networking" {
-  source = "../../modules/networking"
+  source = "royge/networking/aws"
 
   region = "ap-southeast-1"
   name = "test"
@@ -14,7 +14,7 @@ module "networking" {
 }
 
 module "api" {
-  source = "../../modules/autoscaling"
+  source = "../../"
 
   region = "ap-southeast-1"
   name = "test"

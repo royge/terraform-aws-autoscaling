@@ -3,30 +3,6 @@ provider "aws" {
   version = "1.33.0"
 }
 
-data "aws_ami" "default" {
-  most_recent = true
-
-  filter {
-    name = "name"
-    values = "${var.ami_names}"
-  }
-
-  filter {
-    name = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = "${var.ami_owners}"
-}
-
-variable "ami_names" {
-  type = "list"
-}
-
-variable "ami_owners" {
-  type = "list"
-}
-
 resource "aws_launch_configuration" "cluster" {
   image_id = "${data.aws_ami.default.image_id}"
   instance_type = "${var.instance_type}"
@@ -57,39 +33,4 @@ resource "aws_autoscaling_group" "default" {
     value = "${var.name}"
     propagate_at_launch = true
   }
-}
-
-# AWS Region
-variable "region" {}
-
-variable "min" {
-  default = 1
-}
-
-variable "max" {
-  default = 2
-}
-
-variable "cap" {
-  default = 1
-}
-
-variable "security_groups" {
-  type = "list"
-}
-
-variable "instance_type" {}
-variable "key_name" {}
-
-variable "name" {}
-
-variable "metrics" {
-  type = "list"
-  default = [
-    "GroupMinSize",
-    "GroupMaxSize",
-    "GroupDesiredCapacity",
-    "GroupInServiceInstances",
-    "GroupTotalInstances",
-  ]
 }

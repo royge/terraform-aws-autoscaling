@@ -1,0 +1,5 @@
+*.tfvars
+*.plan
+*.tfstate
+.terraform/
+*.swp
