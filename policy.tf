@@ -1,5 +1,5 @@
 resource "aws_autoscaling_policy" "out" {
-  name = "api-scaling-out-policy"
+  name = "api-scaling-out-policy-${var.name}"
   scaling_adjustment = 1
   adjustment_type = "ChangeInCapacity"
   cooldown = 300
@@ -7,7 +7,7 @@ resource "aws_autoscaling_policy" "out" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "out" {
-  alarm_name = "api-cpu-alarm-out"
+  alarm_name = "api-cpu-alarm-out-${var.name}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods = "2"
   metric_name = "CPUUtilization"
@@ -25,7 +25,7 @@ resource "aws_cloudwatch_metric_alarm" "out" {
 }
 
 resource "aws_autoscaling_policy" "in" {
-  name = "api-scaling-in-policy"
+  name = "api-scaling-in-policy-${var.name}"
   scaling_adjustment = -1
   adjustment_type = "ChangeInCapacity"
   cooldown = 300
@@ -33,7 +33,7 @@ resource "aws_autoscaling_policy" "in" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "in" {
-  alarm_name = "api-cpu-alarm-in"
+  alarm_name = "api-cpu-alarm-in-${var.name}"
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods = "2"
   metric_name = "CPUUtilization"
