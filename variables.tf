@@ -1,6 +1,6 @@
 # AWS Region
 variable "region" {
-  desription = "AWS region"
+  description = "AWS region"
 }
 
 variable "min" {
