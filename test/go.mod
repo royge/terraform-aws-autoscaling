@@ -10,7 +10,7 @@ require (
 	github.com/google/uuid v1.0.0 // indirect
 	github.com/jmespath/go-jmespath v0.3.0 // indirect
 	github.com/pquerna/otp v1.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2 // indirect
-	golang.org/x/net v0.0.0-20200202094626-16171245cfb2 // indirect
-	golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a // indirect
+	golang.org/x/crypto v0.17.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
 )
