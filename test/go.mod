@@ -11,6 +11,6 @@ require (
 	github.com/jmespath/go-jmespath v0.3.0 // indirect
 	github.com/pquerna/otp v1.0.0 // indirect
 	golang.org/x/crypto v0.17.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
 )
